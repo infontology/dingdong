@@ -5,6 +5,8 @@
 // this arduino sketch connects to an Adafruit FONA (for GSM) and an RF transmitter (pin 9) -- when we receive a text message with the word "doorbell", we send an RF signal out to ring a doorbell based off a transmission we sniffed previously with RTL-SDR
 //
 // more details at http://samy.pl/dingdong
+//
+
 
 #define TX_PIN 9
 #define BIT_PERIOD 700
@@ -56,7 +58,7 @@ void handle_sms()
     Serial.println(F("G Could not read # SMS"));
   }
   else {
-    Serial.print(smsnum); 
+    Serial.print(smsnum);
     Serial.println(F(" SMS's on SIM card!"));
   }
 
@@ -68,7 +70,7 @@ void handle_sms()
     while (last_sms++ != smsnum)
     {
       // read this SMS and check for the word "doorbell"
-      Serial.print(F("\n\rReading SMS #")); 
+      Serial.print(F("\n\rReading SMS #"));
       Serial.println(last_sms);
 
       // Retrieve SMS sender address/phone number.
@@ -85,10 +87,10 @@ void handle_sms()
         Serial.println("Failed!");
         break;
       }
-      Serial.print(F("***** SMS #")); 
-      Serial.print(last_sms); 
-      Serial.print(" ("); 
-      Serial.print(smslen); 
+      Serial.print(F("***** SMS #"));
+      Serial.print(last_sms);
+      Serial.print(" (");
+      Serial.print(smslen);
       Serial.println(F(") bytes *****"));
       Serial.println(replybuffer);
       Serial.println(F("*****"));
@@ -177,7 +179,7 @@ void single_ring()
 		if (i != 0)
 			delayMicroseconds(us - last - BIT_PERIOD);
 
-		// send a "1" for our BIT_PERIOD which is around 700-800us 
+		// send a "1" for our BIT_PERIOD which is around 700-800us
 		digitalWrite(TX_PIN, HIGH);
 		delayMicroseconds(BIT_PERIOD);
 		digitalWrite(TX_PIN, LOW);
@@ -195,4 +197,3 @@ void loop()
     handle_sms();
   delay(1000);
 }
-
